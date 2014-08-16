@@ -13,7 +13,7 @@ using namespace std;
 // https://www.hackerrank.com/contests/projecteuler/challenges/euler001
 //
 // Solved: 8/16/14
-unsigned long euler001helper(int multiple, int limit)
+unsigned long euler001helper(unsigned long multiple, unsigned long limit)
 {
     limit = limit/multiple*multiple;
     unsigned long result = (multiple+limit)*(limit/(multiple*2));
@@ -23,7 +23,7 @@ unsigned long euler001helper(int multiple, int limit)
     // returns the sum of all multiples of a multiple up to a limit
     return result;
 }
-unsigned long euler001(int n)
+unsigned long euler001(unsigned long n)
 {
     unsigned long sum = 0;
     sum += euler001helper(3, n-1);
@@ -35,7 +35,6 @@ unsigned long euler001(int n)
 int main(int argc, const char * argv[])
 {
     // Multiple input
-    cout << "Enter the input:\n";
     int T;
     cin >> T;
     while (T--) {
