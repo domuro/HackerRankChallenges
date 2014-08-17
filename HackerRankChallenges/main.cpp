@@ -7,12 +7,14 @@
 //
 
 #include <iostream>
+#include <math.h>
+
 using namespace std;
 
 // Project Euler #1: Multiples of 3 and 5
 // https://www.hackerrank.com/contests/projecteuler/challenges/euler001
 //
-// Notes:  Based solution on the story of Gauss adding 1 to 100
+// Based on the story of Gauss adding 1 to 100
 // Solved: 8/16/14
 unsigned long euler001helper(unsigned long multiple, unsigned long limit)
 {
@@ -41,7 +43,7 @@ unsigned long euler001(unsigned long n)
 // Project Euler #2: Even Fibonacci numbers
 // https://www.hackerrank.com/contests/projecteuler/challenges/euler002
 //
-// Notes:  Uses dynamic programming
+// Uses dynamic programming
 // Solved: 8/16/14
 unsigned long long euler002(unsigned long long n)
 {
@@ -60,6 +62,33 @@ unsigned long long euler002(unsigned long long n)
     return sum;
 }
 
+// Project Euler #3: Largest prime factor
+// https://www.hackerrank.com/contests/projecteuler/challenges/euler003
+//
+// Uses Sieve of Eratosthenes to find primes
+// Short circuts when no divisible prime is found less than or equal to the square root
+// Solved: 8/17/14
+unsigned long long euler003(unsigned long long n)
+{
+    unsigned long long biggestPrime = 2, root = (unsigned long long)sqrt(n), primes[root+1];
+    // primes array contains [0, n]
+    for (unsigned long long i = 0; i <= root; i++) primes[i] = i;
+    while (true) {
+        // divide n if possible
+        while (n%biggestPrime == 0) n /= biggestPrime;
+        // if dividing n by the biggest prime equals 1, then we have found the biggest prime
+        if (n == 1) return biggestPrime;
+        // save square root to avoid recalculations
+        root = (unsigned long long)sqrt(n);
+        // apply Sieve of Eratosthenes by setting composite numbers to 0
+        for (unsigned long long j = biggestPrime; j <= root; j += biggestPrime) primes[j] = 0;
+        // find next biggest prime (composite numbers have been set to 0)
+        while (!primes[++biggestPrime])
+            // if next biggest prime is bigger than root, the next divisible biggest prime is itself
+            if (biggestPrime > root) return n;
+    }
+}
+
 int main(int argc, const char * argv[])
 {
     // multiple input
@@ -68,7 +97,7 @@ int main(int argc, const char * argv[])
     while (T--) {
         unsigned long long n;
         cin >> n;
-        cout << euler002(n) << endl;
+        cout << euler003((unsigned long long)n) << endl;
     }
     return 0;
 }
