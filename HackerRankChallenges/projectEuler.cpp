@@ -163,3 +163,18 @@ unsigned long long euler005(int n)
     }
     return result;
 }
+
+// Project Euler #6: Sum square difference
+// https://www.hackerrank.com/contests/projecteuler/challenges/euler006
+//
+// Brute force approach
+// Solved 8/18/14
+unsigned long long euler006(int n)
+{
+    unsigned long long squareOfSum = 0, sumOfSquare = 0;
+    for (int i = 1; i <= n; i++) {
+        squareOfSum += i;
+        sumOfSquare += i*i;
+    }
+    return squareOfSum*squareOfSum - sumOfSquare;
+}

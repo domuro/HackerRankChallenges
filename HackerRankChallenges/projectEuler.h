@@ -17,5 +17,6 @@ unsigned long long euler002(unsigned long long n);
 unsigned long long euler003(unsigned long long n);
 int euler004(int n);
 unsigned long long euler005(int n);
+unsigned long long euler006(int n);
 
 #endif /* defined(__HackerRankChallenges__projectEuler__) */
