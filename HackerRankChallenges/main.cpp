@@ -70,7 +70,7 @@ unsigned long long euler002(unsigned long long n)
 // Solved: 8/17/14
 unsigned long long euler003(unsigned long long n)
 {
-    unsigned long long biggestPrime = 2, root = (unsigned long long)sqrt(n), primes[root+1];
+    unsigned long long biggestPrime = 2, root = (unsigned long long)sqrt(n), primes[root+1], j;
     // primes array contains [0, n]
     for (unsigned long long i = 0; i <= root; i++) primes[i] = i;
     while (true) {
@@ -81,12 +81,37 @@ unsigned long long euler003(unsigned long long n)
         // save square root to avoid recalculations
         root = (unsigned long long)sqrt(n);
         // apply Sieve of Eratosthenes by setting composite numbers to 0
-        for (unsigned long long j = biggestPrime; j <= root; j += biggestPrime) primes[j] = 0;
+        for (j = biggestPrime; j <= root; j += biggestPrime) primes[j] = 0;
         // find next biggest prime (composite numbers have been set to 0)
         while (!primes[++biggestPrime])
             // if next biggest prime is bigger than root, the next divisible biggest prime is itself
             if (biggestPrime > root) return n;
     }
+}
+
+// Project Euler #4: Largest palindrome product
+// https://www.hackerrank.com/contests/projecteuler/challenges/euler004
+//
+//
+// Solved 8/17/14
+int euler004(int n)
+{
+    int i;
+    // calculate largest palindrome less than or equal to n
+    while (n%10 != n/100000) n--;
+    while (n%100/10 != n/10000%10) n-=10;
+    while (n%1000/100 != n/1000%10) n-=100;
+    // loop over all smaller palindromes
+    while (n/1000 > 100) {
+        // one multiple must be less than or equal to the square root
+        for (i = (int)sqrt(n); i >= 100; i--)
+            // return palindrome if a multiple is found and the quotient is three digits.
+            if (n%i==0 && n/i < 1000) return n;
+        // observe that to find the next smaller palindrome we must subtract by 1100, 110, or 11
+        for (i = 1; i <= n%1000; i*=10);
+        n -= i/10*11;
+    }
+    return -1;
 }
 
 int main(int argc, const char * argv[])
@@ -97,7 +122,7 @@ int main(int argc, const char * argv[])
     while (T--) {
         unsigned long long n;
         cin >> n;
-        cout << euler003((unsigned long long)n) << endl;
+        cout << euler004((int)n) << endl;
     }
     return 0;
 }
