@@ -7,6 +7,8 @@
 //
 #include "projectEuler.h"
 
+#include <iostream>
+#include <math.h>
 using namespace std;
 
 int main(int argc, const char * argv[])
@@ -17,7 +19,7 @@ int main(int argc, const char * argv[])
     while (T--) {
         unsigned long long n;
         cin >> n;
-        cout << euler004((int)n) << endl;
+        cout << euler005((int)n) << endl;
     }
     return 0;
 }

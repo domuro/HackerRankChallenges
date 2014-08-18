@@ -7,8 +7,6 @@
 //
 
 #include "projectEuler.h"
-#include <iostream>
-#include <math.h>
 
 using namespace std;
 
@@ -94,7 +92,7 @@ unsigned long long euler003(unsigned long long n)
 // https://www.hackerrank.com/contests/projecteuler/challenges/euler004
 //
 // Brute force approach
-// Solved 8/17/14
+// Solved: 8/17/14
 int euler004(int n)
 {
     int i;
@@ -116,30 +114,52 @@ int euler004(int n)
 }
 
 // Project Euler #5: Smallest multiple
-// https://www.hackerrank.com/contests/projecteuler/challenges/euler004
+// https://www.hackerrank.com/contests/projecteuler/challenges/euler005
 //
-//
-// Unsolved
-int euler005(int n)
+// Uses Sieve of Eratosthenes to find primes
+// Solved: 8/18/14
+unsigned long long euler005(int n)
 {
-    if (n == 1) return n;
-    int primes[n+1];
-    for (int i = 2; i < n+1; i++) primes[n] = i;
-    for (int i = 2; i <= (int)sqrt(n); i++) {
-        if (primes[i]){
-            cout << primes[i] << endl;
-            for (int j = i*2; j < n+1; j+=i) primes[j] = 0;
+    // find all prime numbers below n using Sieve of Eratosthenes
+    int numbers[n+1], primes[n/2+1], counter, primeCount = 0;
+    for (counter = 2; counter <= n; counter++) numbers[counter] = counter;
+    for (int prime = 2; prime <= (int)sqrt(n); prime++)
+        if (numbers[prime])
+            for (int multiple = prime*2; multiple <= n; multiple += prime) numbers[multiple] = 0;
+    for (int i = 2, counter = 0; i <= n; i++){
+        if (numbers[i]){
+            primes[counter++] = numbers[i];
+        }
+        primeCount = counter;
+    }
+    
+    // track prime factorization of each number
+    int maxPrimeFactorization[primeCount];
+    int primeFactorization[primeCount];
+    for (int i = 0; i < primeCount; i++) {
+        maxPrimeFactorization[i] = 0;
+        primeFactorization[i] = 0;
+    }
+    
+    // find prime factorization of each number
+    for (int i = 2; i <= n; i++) {
+        for (int j = 0, k = i; primes[j] && k != 1; j++) {
+            while (k%primes[j]==0){
+                k/=primes[j];
+                primeFactorization[j]++;
+            }
+        }
+        for (int j = 0; j < primeCount; j++) {
+            // store max occurances of each prime factor
+            maxPrimeFactorization[j] = max(maxPrimeFactorization[j], primeFactorization[j]);
+            primeFactorization[j] = 0;
         }
     }
-    //    for (int i = 0, j = i+1; i < n+1; i++) {
-    //        while (!primes[j]){
-    //            j++;
-    //            if (j > n) {
-    //                i = n+1;
-    //                break;
-    //            }
-    //        }
-    //        primes[i] = primes[j];
-    //    }
-    return 0;
+    
+    // calculate lcm using the maximum occurances of each prime factor
+    unsigned long long result = 1;
+    for (int i = 0; i < primeCount; i++) {
+        result *= pow(primes[i], maxPrimeFactorization[i]);
+    }
+    return result;
 }

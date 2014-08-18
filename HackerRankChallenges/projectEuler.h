@@ -10,10 +10,12 @@
 #define __HackerRankChallenges__projectEuler__
 
 #include <iostream>
+#include <math.h>
+
 unsigned long euler001(unsigned long n);
 unsigned long long euler002(unsigned long long n);
 unsigned long long euler003(unsigned long long n);
 int euler004(int n);
-int euler005(int n);
+unsigned long long euler005(int n);
 
 #endif /* defined(__HackerRankChallenges__projectEuler__) */
