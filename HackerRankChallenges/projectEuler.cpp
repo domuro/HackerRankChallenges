@@ -168,7 +168,7 @@ unsigned long long euler005(int n)
 // https://www.hackerrank.com/contests/projecteuler/challenges/euler006
 //
 // Brute force approach
-// Solved 8/18/14
+// Solved: 8/18/14
 unsigned long long euler006(int n)
 {
     unsigned long long squareOfSum = 0, sumOfSquare = 0;
@@ -177,4 +177,33 @@ unsigned long long euler006(int n)
         sumOfSquare += i*i;
     }
     return squareOfSum*squareOfSum - sumOfSquare;
+}
+
+// Project Euler #7: 10001st prime
+// https://www.hackerrank.com/contests/projecteuler/challenges/euler007
+//
+// Uses Massias and Robin [MR96] to estimate nth prime.
+// Solved: 8/18/14
+int euler007(int n)
+{
+    int estimate;
+    // refer to [MR96]
+    if (n > 15985)   estimate = n * (log(n)+log(log(n))-0.9427);
+    else if (n > 13) estimate = n * (log(n)+log(log(n))-1+1.8*log(log(n))/log(n));
+    else             estimate = 41;
+    
+    // find all prime numbers below estimtae using Sieve of Eratosthenes (from euler005)
+    int numbers[estimate+1], primes[estimate/2+1], counter, primeCount = 0, root = sqrt(estimate);
+    for (counter = 2; counter <= estimate; counter++) numbers[counter] = counter;
+    for (int prime = 2; prime <= root; prime++)
+        if (numbers[prime])
+            for (int multiple = prime*2; multiple <= estimate; multiple += prime) numbers[multiple] = 0;
+    for (int i = 2, counter = 0; i <= estimate; i++){
+        if (numbers[i]){
+            primes[counter++] = numbers[i];
+        }
+        primeCount = counter;
+    }
+    
+    return primes[n-1];
 }

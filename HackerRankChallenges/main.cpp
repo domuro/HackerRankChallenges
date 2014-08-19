@@ -19,7 +19,7 @@ int main(int argc, const char * argv[])
     while (T--) {
         unsigned long long n;
         cin >> n;
-        cout << euler006((int)n) << endl;
+        cout << euler007((int)n) << endl;
     }
     return 0;
 }
